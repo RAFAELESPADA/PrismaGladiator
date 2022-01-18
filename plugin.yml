@@ -1,0 +1,5 @@
+name: PrismaGladiator
+main: com.br.gabrielsilva.prismamc.gladiator.Gladiator
+author: BiielBr
+version: 0.0.1
+softdepend: [PrismaCommons]
