@@ -47,7 +47,7 @@ public class InviteListener implements Listener {
 	    			return;
 	    		}
 	        	if (Gladiator.getManager().getGameManager().getSala(clicado.getUniqueId()) != 0) {
-	        		player.sendMessage("§cEste jogador j§ est§ em um Gladiator.");
+	        		player.sendMessage("§cEste jogador ja está em um Gladiator.");
 	        		return;
 	        	}
 	        	
@@ -68,8 +68,8 @@ public class InviteListener implements Listener {
 	        	} else {
 	        		Convites.put(player.getUniqueId(), new InviteManager(clicado.getUniqueId(), ConviteTipo.NORMAL));
 	        		inviteCooldown.put(player.getUniqueId(), System.currentTimeMillis() + 5000L);
-	        		player.sendMessage("§eVoc§ desafiou " + clicado.getName() + "!");
-	            	clicado.sendMessage("§cVoc§ foi desafiado por " + player.getName() + " para um Gladiator Normal.");
+	        		player.sendMessage("§eVocê desafiou " + clicado.getName() + "!");
+	            	clicado.sendMessage("§cVocê foi desafiado por " + player.getName() + " para um Gladiator Normal.");
 	        	}
 	        }
 		}
@@ -134,7 +134,7 @@ public class InviteListener implements Listener {
 						return;
 					}
 	 		    	player.getInventory().setItemInHand(new ItemBuilder().material(Material.getMaterial(356)).name("§aBatalha R§pida 2v2").build());
-	    		    player.sendMessage("§aVoc§ saiu da fila do Gladiator R§pido 2v2.");
+	    		    player.sendMessage("§aVoc§ saiu da fila do Gladiator Rápido 2v2.");
 	    		    x2rapido.remove(player);
 	    		    addDelay(player);
 	    	    } else {
@@ -146,7 +146,7 @@ public class InviteListener implements Listener {
 	    			.glow().build());
 	    		    	
 	    		    x2rapido.add(player);
-	    		    player.sendMessage("§aVoce entrou na fila do Gladiator R§pido 2v2. (" + x2rapido.size() + "/4)");
+	    		    player.sendMessage("§aVoce entrou na fila do Gladiator Rápido 2v2. (" + x2rapido.size() + "/4)");
 	    		    checkX2Rapido();
 	    		    addDelay(player);
 	    	    }
