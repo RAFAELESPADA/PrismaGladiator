@@ -2,8 +2,10 @@ package com.br.gabrielsilva.prismamc.gladiator.listeners;
 
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -18,6 +20,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
@@ -36,7 +39,6 @@ import com.br.gabrielsilva.prismamc.gladiator.commands.ServerCommand;
 import com.br.gabrielsilva.prismamc.gladiator.manager.battle.BattleType;
 import com.br.gabrielsilva.prismamc.gladiator.manager.battle.types.GladiatorDuo;
 import com.br.gabrielsilva.prismamc.gladiator.manager.battle.types.GladiatorSolo;
-
 public class GeneralListeners implements Listener {
 
 	@EventHandler
@@ -58,6 +60,19 @@ public class GeneralListeners implements Listener {
 			event.setCancelled(true);
 		} else {
 			event.setCancelled(false);
+		}
+	}
+	@EventHandler
+	public void onPlayerInteract2(PlayerInteractEvent event) {
+		if (event.getAction() == Action.PHYSICAL) {
+			Block block = event.getClickedBlock();
+			if (block == null)
+				return;
+			if (block.getType() == Material.SOIL) {
+				event.setUseInteractedBlock(org.bukkit.event.Event.Result.DENY);
+				event.setCancelled(true);
+				block.setTypeIdAndData(block.getType().getId(), block.getData(), true);
+			}
 		}
 	}
 	
@@ -136,7 +151,25 @@ public class GeneralListeners implements Listener {
 			event.setCancelled(true);
 		}
 	}
-	
+
+	@EventHandler
+	public void onDamage(EntityDamageEvent event) {
+		event.setCancelled(true);
+		if (event.getEntity() instanceof Player) {
+		Player player = (Player)event.getEntity();
+		if (Gladiator.getManager().getGameManager().getSala(player.getUniqueId()) != 0 && event.getCause().equals(DamageCause.VOID)) {
+			int arenaID = Gladiator.getManager().getGameManager().getSala(player.getUniqueId());
+			
+			if (arenaID != 0) {
+				GladiatorSolo gladiatorArena = Gladiator.getManager().getGameManager().getBatalhaSoloStatus(arenaID);
+				
+				final UUID outroplayer = gladiatorArena.getOutroPlayer(player.getUniqueId());
+				Player ganhador = Bukkit.getPlayer(outroplayer);
+			player.teleport(ganhador);
+		}
+		}
+		}
+		}
 	@EventHandler
 	public void drop(PlayerDropItemEvent event) {
 		Player player = event.getPlayer();
