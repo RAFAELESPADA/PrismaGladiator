@@ -156,7 +156,7 @@ public class GeneralListeners implements Listener {
     public void onDamage(EntityDamageEvent event) {
         if (event.getEntity() instanceof Player) {
         Player player = (Player)event.getEntity();
-        if (Gladiator.getManager().getGameManager().getSala(player.getUniqueId()) != 0 && event.getCause().equals(DamageCause.VOID || event.getCause().equals(DamageCause.FALL)) {
+        if (Gladiator.getManager().getGameManager().getSala(player.getUniqueId()) != 0 && event.getCause().equals(DamageCause.VOID) || event.getCause().equals(DamageCause.FALL)) {
             int arenaID = Gladiator.getManager().getGameManager().getSala(player.getUniqueId());
 
             if (arenaID != 0) {
