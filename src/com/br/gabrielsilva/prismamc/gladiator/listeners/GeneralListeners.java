@@ -170,6 +170,30 @@ event.setCancelled(true);
         }
         }
 	@EventHandler
+    public void Habilidade(PlayerMoveEvent event) {
+        if (event.isCancelled()) {
+            return;
+        }
+        if (!(event.getTo().getBlock().getY() < 20)) {
+            return;
+        }
+        
+        Player player = event.getPlayer();
+        if (event.getTo().getBlock().getType().equals(Material.WATER) || event.getTo().getBlock().getType().equals(Material.STATIONARY_WATER) || event.getTo().getBlock().getType().equals(Material.LAVA) || event.getTo().getBlock().getType().equals(Material.STATIONARY_LAVA)) {
+            if (Gladiator.getManager().getGameManager().getSala(player.getUniqueId()) != 0) {
+                int arenaID = Gladiator.getManager().getGameManager().getSala(player.getUniqueId());
+
+                if (arenaID != 0) {
+                    GladiatorSolo gladiatorArena = Gladiator.getManager().getGameManager().getBatalhaSoloStatus(arenaID);
+    event.setCancelled(true);
+                    final UUID outroplayer = gladiatorArena.getOutroPlayer(player.getUniqueId());
+                    Player ganhador = Bukkit.getPlayer(outroplayer);
+                player.teleport(ganhador);
+                }
+            }
+        }
+        }
+	@EventHandler
 	public void drop(PlayerDropItemEvent event) {
 		Player player = event.getPlayer();
 		if (Gladiator.getManager().getGameManager().getSala(player.getUniqueId()) != 0) {
