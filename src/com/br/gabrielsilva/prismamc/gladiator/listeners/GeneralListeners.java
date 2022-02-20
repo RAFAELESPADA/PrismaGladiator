@@ -153,23 +153,22 @@ public class GeneralListeners implements Listener {
 	}
 
 	@EventHandler
-	public void onDamage(EntityDamageEvent event) {
-		event.setCancelled(true);
-		if (event.getEntity() instanceof Player) {
-		Player player = (Player)event.getEntity();
-		if (Gladiator.getManager().getGameManager().getSala(player.getUniqueId()) != 0 && event.getCause().equals(DamageCause.VOID)) {
-			int arenaID = Gladiator.getManager().getGameManager().getSala(player.getUniqueId());
-			
-			if (arenaID != 0) {
-				GladiatorSolo gladiatorArena = Gladiator.getManager().getGameManager().getBatalhaSoloStatus(arenaID);
-				
-				final UUID outroplayer = gladiatorArena.getOutroPlayer(player.getUniqueId());
-				Player ganhador = Bukkit.getPlayer(outroplayer);
-			player.teleport(ganhador);
-		}
-		}
-		}
-		}
+    public void onDamage(EntityDamageEvent event) {
+        if (event.getEntity() instanceof Player) {
+        Player player = (Player)event.getEntity();
+        if (Gladiator.getManager().getGameManager().getSala(player.getUniqueId()) != 0 && event.getCause().equals(DamageCause.VOID || event.getCause().equals(DamageCause.FALL)) {
+            int arenaID = Gladiator.getManager().getGameManager().getSala(player.getUniqueId());
+
+            if (arenaID != 0) {
+                GladiatorSolo gladiatorArena = Gladiator.getManager().getGameManager().getBatalhaSoloStatus(arenaID);
+event.setCancelled(true);
+                final UUID outroplayer = gladiatorArena.getOutroPlayer(player.getUniqueId());
+                Player ganhador = Bukkit.getPlayer(outroplayer);
+            player.teleport(ganhador);
+        }
+        }
+        }
+        }
 	@EventHandler
 	public void drop(PlayerDropItemEvent event) {
 		Player player = event.getPlayer();
